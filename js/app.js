@@ -6,15 +6,17 @@ var Enemy = function(x, y) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.speed = Math.floor(Math.random() * 100 + 50);
-    numbugs = Math.floor((Math.random() * 9) + 1);
+    numbugs = Math.floor((Math.random() * 21) + 1);
     this.x = x;
     this.y = y;
     if(this.y === 145) {
         this.sprite = 'images/rock.png';
-    } else if(numbugs <= 4) {
+    } else if(numbugs <= 9) {
         this.sprite = 'images/enemy-bug.png';
-    } else if(numbugs <= 8) {
+    } else if(numbugs <= 18) {
         this.sprite = 'images/enemy-bug2.png';
+    } else if(numbugs <= 20) {
+        this.sprite = 'images/enemy-bug3.png';
     } else {
         this.sprite = 'images/star.png';
     }
@@ -29,20 +31,56 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     
     this.x = this.x + this.speed * dt;
-    numbugs = Math.floor((Math.random() * 10) + 1);
+    numbugs = Math.floor((Math.random() * 25) + 1);
     if (this.x > 700) {
         this.x = -150;
         this.speed = Math.floor(Math.random() * 100 + 50); 
         if(this.y === 145) {
             this.sprite = 'images/rock.png';
-        } else if(numbugs <= 4) {
+        } else if(numbugs <= 9) {
             this.sprite = 'images/enemy-bug.png'
-        } else if(numbugs <= 8) {
+        } else if(numbugs <= 18) {
             this.sprite = 'images/enemy-bug2.png'
+        } else if(numbugs <= 23) {
+            this.sprite = 'images/enemy-bug3.png';
         } else {
             this.sprite = 'images/star.png'
         }
     }
+    if (
+        this.sprite === 'images/enemy-bug.png'
+        && player.x <= (this.x + 65)
+        && this.x <= (player.x + 42)
+        && player.y <= (this.y + 42)
+        && this.y <= (player.y + 42)
+        
+    ) {
+        console.log('Hit');
+        player.x = 203;
+        player.y = 420;
+    } else if (
+        this.sprite === 'images/enemy-bug2.png'
+        && player.x <= (this.x + 160)
+        && this.x <= (player.x + 42)
+        && player.y <= (this.y + 42)
+        && this.y <= (player.y + 42)
+    ) {
+        console.log('Hit by 2')
+        player.x = 203;
+        player.y = 420;
+    } else if (
+        this.sprite === 'images/enemy-bug3.png'
+        && player.x <= (this.x + 260)
+        && this.x <= (player.x + 42)
+        && player.y <= (this.y + 42)
+        && this.y <= (player.y + 42)
+    ) {
+        console.log('Hit by 3')
+        player.x = 203;
+        player.y = 420; 
+    }
+    //console.log(player.y);
+    
 }
 
         
@@ -59,7 +97,7 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 203;
-    this.y = 362;
+    this.y = 420;
 }
 
 Player.prototype.update = function() {
