@@ -27,6 +27,7 @@ var Engine = (function(global) {
 
     canvas.width = 606;
     canvas.height = 606;
+    //canvas.style.border = "thin dotted red";
     doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
@@ -95,6 +96,10 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+        princess.update();
+        allJewels.forEach(function(jewel) {
+            jewel.update();
+        });
     };
 
     /* This function initially draws the "game level", it will then call
@@ -107,6 +112,7 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         var rowImages = [
                 'images/grass-block.png',   // Top row is grass
                 'images/stone-block.png',   // Row 1 of 3 of stone
@@ -132,7 +138,7 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+            ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);    
             }
         }
 
@@ -153,6 +159,12 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        princess.render();
+
+        allJewels.forEach(function(jewel) {
+            jewel.render();
+        });
     }
 
     /* This function does nothing but it could have been a good place to
@@ -179,7 +191,13 @@ var Engine = (function(global) {
         'images/boy-right.png',
         'images/boy-left.png',
         'images/star.png',
-        'images/rock.png'
+        'images/rock.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png',
+        'images/char-princess-girl.png',
+        'images/char-princess-girl-sad.png',
+        'images/heart.png'
     ]);
     Resources.onReady(init);
 
