@@ -162,6 +162,8 @@ var Engine = (function(global) {
 
         princess.render();
 
+        numlives.render();
+
         allJewels.forEach(function(jewel) {
             jewel.render();
         });
@@ -190,6 +192,7 @@ var Engine = (function(global) {
         'images/boy-back.png',
         'images/boy-right.png',
         'images/boy-left.png',
+        'images/boy-dead.png',
         'images/star.png',
         'images/rock.png',
         'images/Gem Blue.png',
@@ -197,7 +200,8 @@ var Engine = (function(global) {
         'images/Gem Orange.png',
         'images/char-princess-girl.png',
         'images/char-princess-girl-sad.png',
-        'images/heart.png'
+        'images/heart.png',
+        'images/broken-heart.png'
     ]);
     Resources.onReady(init);
 

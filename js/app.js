@@ -1,4 +1,5 @@
 var hop = new Audio('audio/hop.mp3');
+var lives = 4;
 // Enemies our player must avoid
 var Enemy = function(x, y, sprite) {
     // Variables applied to each of our instances go here,
@@ -108,7 +109,6 @@ Player.prototype.update = function(dt) {
     ) {
         playerReset();
     }
-    console.log(rock.x);
 }
 
 // Draw the player on the screen, required method for game
@@ -156,10 +156,10 @@ Player.prototype.handleInput = function(key) {
 var playerReset = function() {
     player.x = 251;
     player.y = 450;
+    livesLeft();
 };
 
 //Draw jewels in top row
-//var endplace;
 var Jewels = function(x, color) {
     
     this.y = 63;
@@ -193,7 +193,7 @@ Jewels.prototype.update = function() {
             && gemcount !== 3
             && this.y <= 425            
             && player.y <= (this.y + 45)
-            && this.y <= (player.y + 45)
+            && this.y <= (player.y + 55)
             && player.x <= (this.x + 55)
             && this.x <= (player.x + 55)
         ) {
@@ -206,7 +206,7 @@ Jewels.prototype.update = function() {
             && gemcount !==3
             && this.y <= 425            
             && player.y <= (this.y + 45)
-            && this.y <= (player.y + 45)
+            && this.y <= (player.y + 55)
             && player.x <= (this.x + 55)
             && this.x <= (player.x + 55)
         ) {
@@ -219,7 +219,7 @@ Jewels.prototype.update = function() {
             && gemcount !== 2
             && this.y <= 425            
             && player.y <= (this.y + 45)
-            && this.y <= (player.y + 45)
+            && this.y <= (player.y + 55)
             && player.x <= (this.x + 55)
             && this.x <= (player.x + 55)
         ) {
@@ -233,7 +233,7 @@ Jewels.prototype.update = function() {
         }
 };
 
-
+// Create the princess class
 var Princess = function() {
     this.sprite = 'images/char-princess-girl-sad.png';
     this.x = 5;
@@ -241,31 +241,49 @@ var Princess = function() {
 }
 
 Princess.prototype.update = function() {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    //this.speed = this.speed * dt;
     if (
         jewel1.y === 480
         && jewel2.y === 490
         && jewel3.y === 500) {
         this.sprite = 'images/char-princess-girl.png';
-        gameEnd();
+        gameWin();
+    } else if (lives === 0) {
+        gameLose();
     }
 }
 
-// Draw the player on the screen, required method for game
+// Draw the princess on the screen
 Princess.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     //console.log(this.x);
 }
+var livesLeft = function(){
+    lives = lives - 1;
+    
+}
 
-var gameEnd = function(dt) {
+livesLeft.prototype.render = function(){
+    ctx.font='20px Comic Sans MS';
+    ctx.fillStyle = 'yellow';
+    ctx.fillText('Lives Remaining: ' + lives,415,525);
+}
+
+var gameWin = function(dt) {
     princess.x = 225;
     player.x = 285;
     player.y = 450;
     for (enemy of allEnemies) {
         enemy.sprite = 'images/heart.png';
+    }
+}
+
+var gameLose = function() {
+    princess.x = 225;
+    player.x = 265;
+    player.y = 485;
+    player.sprite = 'images/boy-dead.png';
+    for (enemy of allEnemies) {
+        enemy.sprite = 'images/broken-heart.png';
     }
 }
 
@@ -284,6 +302,8 @@ var allJewels = [jewel1, jewel2, jewel3];
 // Place the player object in a variable called player
 var player = new Player();
 var princess = new Princess();
+var numlives = new livesLeft();
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
